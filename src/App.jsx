@@ -1,9 +1,11 @@
-import Home from "./pages/Home";
+// import Home from "./pages/Home";
+import Dashboard from "./pages/Dashboard";
 
 
 export default function App() {
 
   return <div>
-    <Home />
+    <Dashboard />
+    {/* <Home /> */}
   </div>;
 }

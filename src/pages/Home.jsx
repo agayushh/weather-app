@@ -12,7 +12,7 @@ export default function Home() {
           Breeze
         </div>
           <p className="text-3xl text-[#646b75] mt-6 ml-20">Weather Application</p>
-          <button className="bg-[#0095ff] p-5 rounded-4xl w-48 text-lg text-white ml-28 mt-12 hover:bg-sky-300  ">Get Started</button>
+          <button className="bg-[#0095ff] p-5 rounded-4xl w-56 text-xl text-white ml-28 mt-12 hover:bg-sky-300  ">Get Started</button>
       </div>
     </div>
   );
