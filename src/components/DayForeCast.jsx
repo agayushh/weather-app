@@ -12,8 +12,34 @@ export default function DayForeCast() {
         <div className="p-3 text-gray-400 font-mono ml-6 pt-7">
           Today&apos;s Forecast
         </div>
-        <div>
-          <div>6:00 AM</div>
+        <div className="flex">
+          <div>
+            <div className="single time border-r-2 border-slate-300  w-16">
+              <div>6:00 AM</div>
+              <div>
+                <IoRainy />
+              </div>
+              <div>25°</div>
+            </div>
+          </div>
+          <div>
+            <div className="single time border-r-2 border-slate-300">
+              <div>6:00 AM</div>
+              <div>
+                <IoRainy />
+              </div>
+              <div>25°</div>
+            </div>
+          </div>
+          <div>
+            <div className="single time border-r-2 border-slate-300">
+              <div>6:00 AM</div>
+              <div>
+                <IoRainy />
+              </div>
+              <div>25°</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
