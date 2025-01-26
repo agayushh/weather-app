@@ -8,7 +8,6 @@ A sleek and modern weather application built with React, designed to provide rea
 - **Search Functionality**: Search for weather by city name.
 - **Dynamic Weather Icons**: Displays icons based on weather conditions.
 - **Temperature Units**: Toggle between Celsius and Fahrenheit.
-- **Responsive Design**: Fully responsive and optimized for all screen sizes.
 
 ---
 
