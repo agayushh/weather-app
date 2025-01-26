@@ -4,6 +4,7 @@ import { FaCity } from "react-icons/fa";
 import { IoMapSharp } from "react-icons/io5";
 import umbrella from "../assets/umbrella.png";
 import { IoSearchOutline } from "react-icons/io5";
+import CurrentCity from "../components/CurrentCity";
 
 const navbarItems = [
   {
@@ -65,6 +66,7 @@ export default function Dashboard() {
             className="bg-[#202b3b] w-[900px] ml-12 p-4 rounded-2xl text-white placeholder:text-slate-200 hover:border hover:border-sky-300"
           /> */}
           <Input />
+          <CurrentCity />
         </div>
         <div className="flex grow items-center h-[100vh] ml-10">
           <div className="text-white bg-[#202b3b] h-[88%] w-full p-5 rounded-2xl mr-10 mt-16 hover:border hover:border-sky-300">

@@ -1,6 +1,6 @@
 # React Weather App 🌦️
 
-A sleek and modern weather application built with React, designed to provide real-time weather updates for any location.  
+A sleek and modern weather application built with React, designed to provide real-time weather updates for any location.
 
 ## Features 🚀
 
@@ -12,7 +12,6 @@ A sleek and modern weather application built with React, designed to provide rea
 
 ---
 
-
 ---
 
 ## Tech Stack 🛠️
@@ -23,4 +22,3 @@ A sleek and modern weather application built with React, designed to provide rea
 - **React Router**: For navigation
 
 ---
-
