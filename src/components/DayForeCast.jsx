@@ -13,27 +13,27 @@ const data = [
   },
   {
     time: "6:00 AM",
-    icon: <IoRainy />,
+    icon: <FaCloud />,
     temp: "25°C",
   },
   {
     time: "6:00 AM",
-    icon: <IoRainy />,
+    icon: <FaRegSnowflake />,
     temp: "25°C",
   },
   {
     time: "6:00 AM",
-    icon: <IoRainy />,
+    icon: <IoPartlySunny />,
     temp: "25°C",
   },
   {
     time: "6:00 AM",
-    icon: <IoRainy />,
+    icon: <LuWind />,
     temp: "25°C",
   },
   {
     time: "6:00 AM",
-    icon: <IoRainy />,
+    icon: <MdThunderstorm />,
     temp: "25°C",
   },
 ];
