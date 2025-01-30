@@ -1,3 +1,8 @@
+import { FaThermometerHalf } from "react-icons/fa";
+import { FaDroplet } from "react-icons/fa6";
+import { FaWind } from "react-icons/fa";
+import { FaSun } from "react-icons/fa";
+
 export default function AirConditions() {
   return (
     <div>
@@ -5,6 +10,32 @@ export default function AirConditions() {
         <p className="text-mg text-slate-400 font-mono ml-5 mt-2">
           Air Conditions
         </p>
+        <div className="flex m-5 justify-between">
+          <div>
+            <div className="flex ml-5">
+              <FaThermometerHalf className="text-2xl text-slate-400 mr-2" />
+              <div className="text-slate-400 text-xl">Real Feel</div>
+            </div>
+            <p className="ml-16 text-3xl text-white font-bold">29°C</p>
+            <div className="flex ml-5 mt-4">
+              <FaDroplet className="text-2xl text-slate-400 mr-2" />
+              <div className="text-xl text-slate-400">Chances of Rain</div>
+            </div>
+            <p className="ml-16 text-3xl text-white font-bold">0</p>
+          </div>
+          <div className="mr-48">
+            <div className="flex">
+              <FaWind className="text-2xl text-slate-400 mr-2" />
+              <div className="text-xl text-slate-400">Wind</div>
+            </div>
+            <p className="ml-9 text-2xl text-white font-bold">3 km/h</p>
+            <div className="flex mt-4">
+              <FaSun className="text-2xl text-slate-400 mr-2" />
+              <div className="text-xl text-slate-400">UV Index</div>
+            </div>
+            <p className="ml-9 text-3xl text-white font-bold">3</p>
+          </div>
+        </div>
       </div>
     </div>
   );
