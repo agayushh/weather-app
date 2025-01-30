@@ -26,8 +26,8 @@ export default function Navbar() {
   return (
     <div>
       <div>
-        <div className="flex items-center justify-center h-[100vh] ml-10">
-          <div className="bg-[#202b3b] h-[95%] w-24 rounded-2xl p-2 flex justify-center">
+        <div className="flex items-center justify-center h-[100vh] ml-10 ">
+          <div className="bg-[#202b3b] h-[95%] w-24 rounded-2xl p-2 flex justify-center ">
             <div className="flex flex-col items-center gap-y-7">
               <img src={umbrella} alt="" className="mb-3" />
               {navbarItems.map(({ Icon, name }, index) => (
