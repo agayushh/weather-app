@@ -1,6 +1,6 @@
 // import Home from "./pages/Home";
-import Dashboard from "./pages/Dashboard";
-// import Cities from "./pages/Cities";
+// import Dashboard from "./pages/Dashboard";
+import Cities from "./pages/Cities";
 // import Maps from "./pages/Maps";
 // import Settings from "./pages/Settings";
 
@@ -8,10 +8,10 @@ import Dashboard from "./pages/Dashboard";
 export default function App() {
 
   return <div>
-    <Dashboard />
+    {/* <Dashboard /> */}
     {/* <Maps /> */}
   {/* <Settings /> */}
-    {/* <Cities /> */}
+    <Cities />
     {/* <Home /> */}
   </div>;
 }

@@ -4,6 +4,7 @@ import { FaRegSnowflake } from "react-icons/fa6";
 import { IoPartlySunny } from "react-icons/io5";
 import { LuWind } from "react-icons/lu";
 import { MdThunderstorm } from "react-icons/md";
+import { PiSunFill } from "react-icons/pi";
 
 export default function SevenDayForecast() {
   const data = [
@@ -16,42 +17,42 @@ export default function SevenDayForecast() {
     },
     {
       day: "Today",
-      icon: <IoRainy />,
+      icon: <FaCloud />,
       weather: "Rainy",
       maxTemp: 32,
       minTemp: 28,
     },
     {
       day: "Today",
-      icon: <IoRainy />,
+      icon: <FaRegSnowflake />,
       weather: "Rainy",
       maxTemp: 32,
       minTemp: 28,
     },
     {
       day: "Today",
-      icon: <IoRainy />,
+      icon: <IoPartlySunny />,
       weather: "Rainy",
       maxTemp: 32,
       minTemp: 28,
     },
     {
       day: "Today",
-      icon: <IoRainy />,
+      icon: <LuWind />,
       weather: "Rainy",
       maxTemp: 32,
       minTemp: 28,
     },
     {
       day: "Today",
-      icon: <IoRainy />,
+      icon: <MdThunderstorm />,
       weather: "Rainy",
       maxTemp: 32,
       minTemp: 28,
     },
     {
       day: "Today",
-      icon: <IoRainy />,
+      icon: <PiSunFill />,
       weather: "Rainy",
       maxTemp: 32,
       minTemp: 28,
