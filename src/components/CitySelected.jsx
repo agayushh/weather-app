@@ -20,10 +20,33 @@ const currentDayForecast = [
     temp: "25°C",
   },
 ];
+const nextDaysForecast = [
+  {
+    day: "Today",
+    icon: <IoRainy />,
+    weather: "Rainy",
+    maxTemp: 32,
+    minTemp: 28,
+  },
+  {
+    day: "Today",
+    icon: <FaCloud />,
+    weather: "Rainy",
+    maxTemp: 32,
+    minTemp: 28,
+  },
+  {
+    day: "Today",
+    icon: <FaRegSnowflake />,
+    weather: "Rainy",
+    maxTemp: 32,
+    minTemp: 28,
+  },
+];
 
 export default function CitySelected() {
   return (
-    <div className="h-full w-full ml-10 mt-56 mr-7 rounded-2xl">
+    <div className="h-full w-full ml-10 mt-36 mr-7 rounded-2xl">
       <div className="border-b-2 border-slate-400 flex justify-between ">
         <div>
           <p className="text-5xl p-5 text-white font-bold">Delhi</p>
@@ -55,6 +78,41 @@ export default function CitySelected() {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+      <div>
+        <div>
+          <p className="text-slate-400 font-mono text-lg mt-5 ml-5 ">
+            3 Days Forecast
+          </p>
+
+          <div>
+            {nextDaysForecast.map((forecastDay, index) => (
+              <div
+                key={index}
+                className="text-lg font-mono text-slate-400 border-b-2 border-slate-400"
+              >
+                <div className="flex justify-between mx-9 mt-8 mb-5">
+                  <div className="text-slate-400 font-mono text-lg mt-2 ">
+                    {forecastDay.day}
+                  </div>
+
+                  <div className="flex ">
+                    <div className="text-5xl mr-3 text-gray-700">
+                      {forecastDay.icon}
+                    </div>
+                    <div className="mt-2">{forecastDay.weather}</div>
+                  </div>
+                  <div className="flex mt-2">
+                    <div className="text-white font-bold">
+                      {forecastDay.maxTemp}
+                    </div>{" "}
+                    /<div>{forecastDay.minTemp}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
