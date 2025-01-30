@@ -3,6 +3,7 @@ import { FaCloud } from "react-icons/fa6";
 import { IoPartlySunny } from "react-icons/io5";
 import { LuWind } from "react-icons/lu";
 import { useEffect, useState } from "react";
+import Navbar from "../components/Navbar";
 
 export default function Cities() {
   const [time, setTime] = useState("");
@@ -54,10 +55,7 @@ export default function Cities() {
     <div>
       <div className="bg-[#0b131e] h-[100vh] w-full">
         <div className="flex">
-          <div className="flex items-center h-[100vh] ml-10">
-            <div className="bg-[#202b3b] h-[95%] w-24 rounded-2xl">city</div>
-          </div>
-
+          <Navbar />
           <div className="mt-8">
             <input
               type="text"
