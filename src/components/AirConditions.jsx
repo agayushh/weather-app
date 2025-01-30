@@ -7,9 +7,14 @@ export default function AirConditions() {
   return (
     <div>
       <div className="bg-[#202b3b] mt-5 ml-10 rounded-2xl h-64 p-5">
-        <p className="text-mg text-slate-400 font-mono ml-5 mt-2">
+        <div className="flex justify-between mt-2">
+
+        <p className="text-mg text-slate-400 font-mono ml-5">
           Air Conditions
         </p>
+        <button className="bg-[#0095ff] mr-8 rounded-2xl py-1 w-28 text-white font-bold hover:bg-sky-500">See more</button>
+        </div>
+
         <div className="flex m-5 justify-between">
           <div>
             <div className="flex ml-5">
