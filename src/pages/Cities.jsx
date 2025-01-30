@@ -4,6 +4,7 @@ import { IoPartlySunny } from "react-icons/io5";
 import { LuWind } from "react-icons/lu";
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
+import CitySelected from "../components/CitySelected";
 
 export default function Cities() {
   const [time, setTime] = useState("");
@@ -88,6 +89,7 @@ export default function Cities() {
               ))}
             </div>
           </div>
+          <CitySelected />
         </div>
       </div>
     </div>
