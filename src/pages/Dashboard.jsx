@@ -7,6 +7,7 @@ import { IoSearchOutline } from "react-icons/io5";
 import CurrentCity from "../components/CurrentCity";
 import DayForeCast from "../components/DayForeCast";
 import AirConditions from "../components/AirConditions";
+import SevenDayForecast from "../components/SevenDayForecast";
 
 const navbarItems = [
   {
@@ -68,11 +69,7 @@ export default function Dashboard() {
           <AirConditions />
         </div>
         <div className="flex grow items-center h-[100vh] ml-10">
-          <div className="text-white bg-[#202b3b] h-[88%] w-full p-5 rounded-2xl mr-10 mt-16 hover:border hover:border-sky-300">
-            <p className="text-xl text-slate-300 mt-10 ml-5 font-mono">
-              7 DAYS FORECAST
-            </p>
-          </div>
+         <SevenDayForecast />
         </div>
       </div>
     </div>
