@@ -3,11 +3,11 @@ import { IoIosSettings } from "react-icons/io";
 import { FaCity } from "react-icons/fa";
 import { IoMapSharp } from "react-icons/io5";
 import umbrella from "../assets/umbrella.png";
-import { IoSearchOutline } from "react-icons/io5";
 import CurrentCity from "../components/CurrentCity";
 import DayForeCast from "../components/DayForeCast";
 import AirConditions from "../components/AirConditions";
 import SevenDayForecast from "../components/SevenDayForecast";
+import Input from "../components/Input";
 
 const navbarItems = [
   {
@@ -27,19 +27,6 @@ const navbarItems = [
     Icon: IoIosSettings,
   },
 ];
-
-const Input = () => {
-  return (
-    <label className="bg-[#202b3b] w-[900px] ml-12 p-4 flex items-center text-white justify-center gap-2 rounded-2xl">
-      <IoSearchOutline className="text-lg" />
-      <input
-        type="text"
-        placeholder="Search For Cities"
-        className="border-none outline-none flex grow bg-transparent"
-      />
-    </label>
-  );
-};
 
 export default function Dashboard() {
   return (
@@ -69,7 +56,7 @@ export default function Dashboard() {
           <AirConditions />
         </div>
         <div className="flex grow items-center h-[100vh] ml-10">
-         <SevenDayForecast />
+          <SevenDayForecast />
         </div>
       </div>
     </div>
