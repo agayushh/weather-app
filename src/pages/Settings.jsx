@@ -3,6 +3,8 @@ import Navbar from "../components/Navbar";
 
 export default function Settings() {
   const [toggle, setToggle] = useState(false);
+  const [isTwelveHourFormat, setIsTwelveHourFormat] = useState(false);
+  const [isLocationEnabled, setIsLocationEnable] = useState(false);
 
   return (
     <div>
@@ -86,8 +88,8 @@ export default function Settings() {
               <p className="p-2 ml-3 text-white font-bold pt-5">
                 Notifications
               </p>
-              <div className="flex justify-between mx-5">
-                <p className="text-slate-400 ">Be aware of the weather</p>
+              <div className="flex justify-between">
+                <p className="text-slate-400 ml-5 ">Be aware of the weather</p>
                 <div
                   className={`w-14 h-7 flex items-center mt-[-20px] rounded-full p-1 cursor-pointer transition-all duration-300 mr-5 ${
                     toggle ? "bg-blue-500" : "bg-gray-600"
@@ -108,9 +110,48 @@ export default function Settings() {
             <div className="text-lg text-white ml-16 mt-4 font-bold">
               General
             </div>
-            <div className="h-48 mt-3 w-[49vw] bg-[#202b3b] ml-12 rounded-2xl ">
-              {" "}
-              Notifications
+            <div className="h-40 mt-3 w-[49vw] bg-[#202b3b] ml-12 rounded-2xl ">
+              <div className="flex justify-between">
+                <p className="p-3 text-xl text-white ml-4 pt-7">
+                  12 hour Format
+                </p>
+
+                <div
+                  className={`w-14 h-7 flex items-center mt-6 rounded-full p-1 cursor-pointer transition-all duration-300 mr-5 ${
+                    isTwelveHourFormat ? "bg-blue-500" : "bg-gray-600"
+                  }`}
+                  onClick={() => {
+                    setIsTwelveHourFormat(!isTwelveHourFormat);
+                  }}
+                >
+                  {" "}
+                  <div
+                    className={`w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
+                      isTwelveHourFormat ? "translate-x-7" : "translate-x-0"
+                    }`}
+                  />
+                </div>
+              </div>
+              <div className="border-b-2 border-slate-600 w-[95%] mt-2 ml-6"></div>
+
+              <div className="flex justify-between">
+                <p className="p-3 text-xl text-white ml-4 pt-7">Location</p>
+
+                <div
+                  className={`w-14 h-7 flex items-center mt-6 rounded-full p-1 cursor-pointer transition-all duration-300 mr-5 ${
+                    isLocationEnabled ? "bg-blue-500" : "bg-gray-600"
+                  }`}
+                  onClick={() => {
+                    setIsLocationEnable(!isLocationEnabled);
+                  }}
+                >
+                  <div
+                    className={`w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
+                      isLocationEnabled ? "translate-x-7" : "translate-x-0"
+                    }`}
+                  />
+                </div>
+              </div>
             </div>
           </div>
           <div>
