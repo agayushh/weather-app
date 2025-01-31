@@ -38,7 +38,17 @@ export default function Settings() {
               Advnaced
             </div>
             <div className=" ml-14 bg-[#202b3b] w-2xl mt-5 rounded-2xl h-[300px]">
-              ga
+              <p className="font-bold text-white pt-7 text-3xl ml-16 ">
+                Never Forget your Umbrella!
+                <div className="border-b-2 border-slate-600 w-[90%] mt-6"></div>
+              </p>
+              <p className="ml-16 text-slate-400 text-md w-[60%] mt-5 font-mono">
+                Sign up for our daily weather newsletter personalized just for
+                you.{" "}
+              </p>
+              <button className=" w-[70%] bg-[#0095ff] ml-28 mt-16 rounded-4xl text-white p-3 font-bold hover:bg-sky-500">
+                Sign up
+              </button>
             </div>
           </div>
         </div>
