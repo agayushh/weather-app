@@ -59,7 +59,7 @@ export default function Cities() {
         <div className="flex">
           <Navbar />
           <div className="mt-8">
-          <Input />
+            <Input />
             <div>
               {data.map((cityCard, index) => (
                 <div

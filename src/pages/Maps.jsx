@@ -1,3 +1,4 @@
+import Input from "../components/Input";
 import Navbar from "../components/Navbar";
 export default function Maps() {
   return (
@@ -7,11 +8,7 @@ export default function Maps() {
           <Navbar />
 
           <div className="mt-8">
-            <input
-              type="text"
-              placeholder="Search For Cities"
-              className="bg-[#202b3b] w-[900px] ml-12 p-4 rounded-2xl text-white placeholder:text-slate-200 hover:border hover:border-sky-300"
-            />
+            <Input />
           </div>
         </div>
       </div>
