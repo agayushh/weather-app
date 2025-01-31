@@ -14,8 +14,66 @@ export default function Settings() {
             />
             <div>
               <p className="text-xl text-white font-bold ml-16 mt-5">Units</p>
-              <div className="h-[550px] w-[49vw] bg-[#202b3b] ml-12 mt-2 rounded-2xl">
-                units daal de
+              <div className="h-[550px] w-[49vw] bg-[#202b3b] ml-12 mt-2 rounded-2xl flex flex-col gap-2">
+                <p className="pt-3 ml-6 text-slate-400 font-mono">
+                  Temperature
+                </p>
+                <div className="w-[95%] mt-3 bg-[#0b131e] rounded-2xl text-white h-10 ml-6 flex justify-between pt-1.5 font-bold">
+                  <div className="w-[50%] ml-1.5 bg-[#202b3b] text-center mb-1.5 rounded-2xl pt-0.5 ">
+                    Celcius
+                  </div>
+                  <div className="w-[50%] mr-1.5 text-center mb-1.5 rounded-2xl pt-0.5 ">
+                    Fahrenheit
+                  </div>
+                </div>
+                <p className="pt-3 ml-6 text-slate-400 font-mono">Wind Speed</p>
+                <div className="w-[95%] mt-3 bg-[#0b131e] rounded-2xl text-white h-10 ml-6 flex justify-between pt-1.5 font-bold">
+                  <div className="w-[50%] ml-1.5 bg-[#202b3b] text-center mb-1.5 rounded-2xl pt-0.5 ">
+                    Km/hr
+                  </div>
+                  <div className="w-[50%] mr-1.5 text-center mb-1.5 rounded-2xl pt-0.5 ">
+                    m/s
+                  </div>
+                  <div className="w-[50%] mr-1.5 text-center mb-1.5 rounded-2xl pt-0.5 ">
+                    Knots
+                  </div>
+                </div>
+                <p className="pt-3 ml-6 text-slate-400 font-mono">Pressure</p>
+                <div className="w-[95%] mt-3 bg-[#0b131e] rounded-2xl text-white h-10 ml-6 flex justify-between pt-1.5 font-bold">
+                  <div className="w-[50%] ml-1.5 bg-[#202b3b] text-center mb-1.5 rounded-2xl pt-0.5 ">
+                    hPa
+                  </div>
+                  <div className="w-[50%] mr-1.5 text-center mb-1.5 rounded-2xl pt-0.5 ">
+                    Inches
+                  </div>
+                  <div className="w-[50%] mr-1.5 text-center mb-1.5 rounded-2xl pt-0.5 ">
+                    kPa
+                  </div>
+                  <div className="w-[50%] mr-1.5 text-center mb-1.5 rounded-2xl pt-0.5 ">
+                    mm
+                  </div>
+                </div>
+                <p className="pt-3 ml-6 text-slate-400 font-mono">
+                  Precipitation
+                </p>
+                <div className="w-[95%] mt-3 bg-[#0b131e] rounded-2xl text-white h-10 ml-6 flex justify-between pt-1.5 font-bold">
+                  <div className="w-[50%] ml-1.5 bg-[#202b3b] text-center mb-1.5 rounded-2xl pt-0.5 ">
+                    Millimeters
+                  </div>
+                  <div className="w-[50%] mr-1.5 text-center mb-1.5 rounded-2xl pt-0.5 ">
+                    Inches
+                  </div>
+                </div>
+                <p className="pt-3 ml-6 text-slate-400 font-mono">Distance</p>
+                <div className="w-[95%] mt-3 bg-[#0b131e] rounded-2xl text-white h-10 ml-6 flex justify-between pt-1.5 font-bold">
+                  <div className="w-[50%] ml-1.5 bg-[#202b3b] text-center mb-1.5 rounded-2xl pt-0.5 ">
+                    Kilometers
+                  </div>
+                  <div className="w-[50%] mr-1.5 text-center mb-1.5 rounded-2xl pt-0.5 ">
+                    Miles
+                  </div>
+                </div>
+                <div></div>
               </div>
             </div>
             <div className="text-lg text-white ml-16 mt-4 font-bold ">
@@ -36,10 +94,9 @@ export default function Settings() {
           <div>
             <div className="bg-[#202b3b] h-[450px] w-2xl ml-14 mt-36 rounded-2xl ">
               <p className="text-4xl font-bold text-white pt-10 ml-12">
-                Advnaced{" "}
+                Advnaced
                 <div className="border-b-2 border-slate-600 w-[90%] mt-6"></div>
               </p>
-              $5.99
               <p className="text-2xl text-white ml-12 mt-6 mb-5 ">
                 Get new Experience
               </p>
@@ -65,7 +122,7 @@ export default function Settings() {
               </p>
               <p className="ml-16 text-slate-400 text-md w-[60%] mt-5 font-mono">
                 Sign up for our daily weather newsletter personalized just for
-                you.{" "}
+                you.
               </p>
               <button className=" w-[70%] bg-[#0095ff] ml-28 mt-16 rounded-4xl text-white p-3 font-bold hover:bg-sky-500">
                 Sign up
