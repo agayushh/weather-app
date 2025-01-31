@@ -35,7 +35,28 @@ export default function Settings() {
           </div>
           <div>
             <div className="bg-[#202b3b] h-[450px] w-2xl ml-14 mt-36 rounded-2xl ">
-              Advnaced
+              <p className="text-4xl font-bold text-white pt-10 ml-12">
+                Advnaced{" "}
+                <div className="border-b-2 border-slate-600 w-[90%] mt-6"></div>
+              </p>
+              $5.99
+              <p className="text-2xl text-white ml-12 mt-6 mb-5 ">
+                Get new Experience
+              </p>
+              <ol className="list-disc ml-16 ]">
+                <li className="text-slate-400 font-mono">Ad free</li>
+                <li className="text-slate-400 font-mono">
+                  Health activities overview
+                </li>
+                <li className="text-slate-400 font-mono">
+                  Severe weather notification
+                </li>
+              </ol>
+              <div className="bg-slate-600 h-20 ml-8 mt-14 rounded-2xl w-[90%] text-4xl text-center font-extrabold text-white hover:bg-slate-500">
+                <p className="pt-5">
+                  $5.99 <span className="text-sm text-slate-200">/ month</span>
+                </p>
+              </div>
             </div>
             <div className=" ml-14 bg-[#202b3b] w-2xl mt-5 rounded-2xl h-[300px]">
               <p className="font-bold text-white pt-7 text-3xl ml-16 ">
