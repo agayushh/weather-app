@@ -5,6 +5,7 @@ import { LuWind } from "react-icons/lu";
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import CitySelected from "../components/CitySelected";
+import Input from "../components/Input";
 
 export default function Cities() {
   const [time, setTime] = useState("");
@@ -58,11 +59,7 @@ export default function Cities() {
         <div className="flex">
           <Navbar />
           <div className="mt-8">
-            <input
-              type="text"
-              placeholder="Search For Cities"
-              className="bg-[#202b3b] w-[900px] ml-12 p-4 rounded-2xl text-white placeholder:text-slate-200 hover:border hover:border-sky-300"
-            />
+          <Input />
             <div>
               {data.map((cityCard, index) => (
                 <div
