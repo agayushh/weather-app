@@ -1,6 +1,9 @@
+import { useState } from "react";
 import Navbar from "../components/Navbar";
 
 export default function Settings() {
+  const [toggle, setToggle] = useState(false);
+
   return (
     <div>
       <div className="bg-[#0b131e] h-[120vh] w-full">
@@ -80,8 +83,27 @@ export default function Settings() {
               Notifications
             </div>
             <div className="h-23 mt-3 w-[49vw] bg-[#202b3b] ml-12 rounded-2xl ">
-              {" "}
-              Notifications
+              <p className="p-2 ml-3 text-white font-bold pt-5">
+                Notifications
+              </p>
+              <div className="flex justify-between mx-5">
+                <p className="text-slate-400 ">Be aware of the weather</p>
+                <div
+                  className={`w-14 h-7 flex items-center mt-[-20px] rounded-full p-1 cursor-pointer transition-all duration-300 mr-5 ${
+                    toggle ? "bg-blue-500" : "bg-gray-600"
+                  }`}
+                  onClick={() => {
+                    setToggle(!toggle);
+                  }}
+                >
+                  {" "}
+                  <div
+                    className={`w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
+                      toggle ? "translate-x-7" : "translate-x-0"
+                    }`}
+                  />
+                </div>
+              </div>
             </div>
             <div className="text-lg text-white ml-16 mt-4 font-bold">
               General
