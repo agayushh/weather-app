@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
+import Input from "../components/Input";
 
 export default function Settings() {
   const [toggle, setToggle] = useState(false);
@@ -12,11 +13,7 @@ export default function Settings() {
         <div className="flex">
           <Navbar />
           <div className="mt-8">
-            <input
-              type="text"
-              placeholder="Search For Cities"
-              className="bg-[#202b3b] w-[900px] ml-12 p-4 rounded-2xl text-white placeholder:text-slate-200 hover:border hover:border-sky-300"
-            />
+            <Input />
             <div>
               <p className="text-xl text-white font-bold ml-16 mt-5">Units</p>
               <div className="h-[550px] w-[49vw] bg-[#202b3b] ml-12 mt-2 rounded-2xl flex flex-col gap-2">
