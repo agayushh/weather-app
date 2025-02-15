@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import umbrella from "../assets/umbrella.png";
 
 export default function Home() {
@@ -11,8 +12,15 @@ export default function Home() {
         <div className="text-[#f0f1f1] text-7xl font-semibold font-sans ml-24">
           Breeze
         </div>
-          <p className="text-3xl text-[#646b75] mt-6 ml-20">Weather Application</p>
-          <button className="bg-[#0095ff] p-5 rounded-4xl w-56 text-xl text-white ml-28 mt-12 hover:bg-sky-300  ">Get Started</button>
+        <p className="text-3xl text-[#646b75] mt-6 ml-20">
+          Weather Application
+        </p>
+        <Link
+          to="/dashboard"
+          className="bg-[#0095ff] p-5 rounded-4xl w-56 text-xl text-white ml-28 mt-12 hover:bg-sky-300 flex justify-center items-center "
+        >
+          Get Started
+        </Link>
       </div>
     </div>
   );
