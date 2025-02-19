@@ -171,7 +171,7 @@ export default function Settings() {
               </ol>
               <div className="bg-slate-600 h-20 ml-8 mt-14 rounded-2xl w-[90%] text-4xl text-center font-extrabold text-white hover:bg-slate-500">
                 <p className="pt-5">
-                  $5.99 <span className="text-sm text-slate-200">/ month</span>
+                  $9.99 <span className="text-sm text-slate-200">/ month</span>
                 </p>
               </div>
             </div>
