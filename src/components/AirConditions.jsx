@@ -2,46 +2,69 @@ import { FaThermometerHalf } from "react-icons/fa";
 import { FaDroplet } from "react-icons/fa6";
 import { FaWind } from "react-icons/fa";
 import { FaSun } from "react-icons/fa";
+import { useRecoilValue } from "recoil";
+import { WEATHER_DATA_ATOM, FORECAST_DATA_ATOM } from "../state/atom/weather";
+import { TEMP_UNIT_ATOM, WIND_UNIT_ATOM } from "../state/atom/settings";
+import { formatTemp, formatWind, rainChance } from "../utils/weatherUtils";
 
 export default function AirConditions() {
-  return (
-    <div>
-      <div className="bg-[#202b3b] mt-5 ml-10 rounded-2xl h-64 p-5">
-        <div className="flex justify-between mt-2">
-          <p className="text-mg text-slate-400 font-mono ml-5">
-            Air Conditions
-          </p>
-          <button className="bg-[#0095ff] mr-8 rounded-2xl py-1 w-28 text-white font-bold hover:bg-sky-500">
-            See more
-          </button>
-        </div>
+  const weatherData = useRecoilValue(WEATHER_DATA_ATOM);
+  const forecastData = useRecoilValue(FORECAST_DATA_ATOM);
+  const tempUnit = useRecoilValue(TEMP_UNIT_ATOM);
+  const windUnit = useRecoilValue(WIND_UNIT_ATOM);
 
-        <div className="flex m-5 justify-between">
-          <div>
-            <div className="flex ml-5">
-              <FaThermometerHalf className="text-2xl text-slate-400 mr-2" />
-              <div className="text-slate-400 text-xl">Real Feel</div>
+  if (!weatherData) return null;
+
+  const realFeel = formatTemp(weatherData.main.feels_like, tempUnit);
+  const windSpeed = formatWind(weatherData.wind.speed, windUnit);
+  const chanceOfRain = forecastData ? rainChance(forecastData.list) : 0;
+  
+  // Approximate UV Index based on clouds
+  const uvIndex = Math.max(1, Math.round(11 - (weatherData.clouds.all / 9)));
+
+  const conditions = [
+    {
+      label: "Real Feel",
+      value: realFeel,
+      Icon: FaThermometerHalf,
+    },
+    {
+      label: "Wind Speed",
+      value: windSpeed,
+      Icon: FaWind,
+    },
+    {
+      label: "Chances of Rain",
+      value: `${chanceOfRain}%`,
+      Icon: FaDroplet,
+    },
+    {
+      label: "UV Index / Humidity",
+      value: `${uvIndex} (${weatherData.main.humidity}%)`,
+      Icon: FaSun,
+    },
+  ];
+
+  return (
+    <div className="bg-[#202b3b]/60 border border-slate-700/30 rounded-3xl p-6 shadow-lg w-full">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-slate-400 font-mono text-xs uppercase tracking-wider">
+          Air Conditions
+        </h2>
+      </div>
+
+      <div className="grid grid-cols-2 gap-6 md:gap-8">
+        {conditions.map(({ label, value, Icon }, index) => (
+          <div key={index} className="flex gap-4 items-start">
+            <Icon className="text-xl md:text-2xl text-slate-500 mt-1 shrink-0" />
+            <div>
+              <p className="text-slate-400 text-xs md:text-sm font-mono">{label}</p>
+              <p className="text-white text-lg md:text-2xl font-bold font-sans mt-1">
+                {value}
+              </p>
             </div>
-            <p className="ml-16 text-3xl text-white font-bold">29°C</p>
-            <div className="flex ml-5 mt-4">
-              <FaDroplet className="text-2xl text-slate-400 mr-2" />
-              <div className="text-xl text-slate-400">Chances of Rain</div>
-            </div>
-            <p className="ml-16 text-3xl text-white font-bold">0</p>
           </div>
-          <div className="mr-48">
-            <div className="flex">
-              <FaWind className="text-2xl text-slate-400 mr-2" />
-              <div className="text-xl text-slate-400">Wind</div>
-            </div>
-            <p className="ml-9 text-2xl text-white font-bold">3 km/h</p>
-            <div className="flex mt-4">
-              <FaSun className="text-2xl text-slate-400 mr-2" />
-              <div className="text-xl text-slate-400">UV Index</div>
-            </div>
-            <p className="ml-9 text-3xl text-white font-bold">3</p>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
