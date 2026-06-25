@@ -1,195 +1,274 @@
-import { useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 import Navbar from "../components/Navbar";
 import Input from "../components/Input";
+import {
+  TEMP_UNIT_ATOM,
+  WIND_UNIT_ATOM,
+  TIME_FORMAT_ATOM,
+  LOCATION_ENABLED_ATOM,
+} from "../state/atom/settings";
+import { WEATHER_DATA_ATOM } from "../state/atom/weather";
+import { formatTime } from "../utils/weatherUtils";
+import { FiSunrise, FiSunset } from "react-icons/fi";
+import { LuActivity, LuInfo } from "react-icons/lu";
 
 export default function Settings() {
-  const [toggle, setToggle] = useState(false);
-  const [isTwelveHourFormat, setIsTwelveHourFormat] = useState(false);
-  const [isLocationEnabled, setIsLocationEnable] = useState(false);
+  const [tempUnit, setTempUnit] = useRecoilState(TEMP_UNIT_ATOM);
+  const [windUnit, setWindUnit] = useRecoilState(WIND_UNIT_ATOM);
+  const [timeFormat, setTimeFormat] = useRecoilState(TIME_FORMAT_ATOM);
+  const [locationEnabled, setLocationEnabled] = useRecoilState(LOCATION_ENABLED_ATOM);
+  const weatherData = useRecoilValue(WEATHER_DATA_ATOM);
+
+  const handleTempUnitChange = (unit) => {
+    setTempUnit(unit);
+    localStorage.setItem("tempUnit", JSON.stringify(unit));
+  };
+
+  const handleWindUnitChange = (unit) => {
+    setWindUnit(unit);
+    localStorage.setItem("windUnit", JSON.stringify(unit));
+  };
+
+  const handleTimeFormatChange = (format) => {
+    setTimeFormat(format);
+    localStorage.setItem("timeFormat", JSON.stringify(format));
+  };
+
+  const handleLocationToggle = () => {
+    const nextVal = !locationEnabled;
+    setLocationEnabled(nextVal);
+    localStorage.setItem("locationEnabled", JSON.stringify(nextVal));
+
+    if (nextVal && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          console.log(pos.coords.latitude, pos.coords.longitude);
+        },
+        (err) => console.warn(err)
+      );
+    }
+  };
+
+  // Calculate day length in hours and minutes
+  const getDayLength = (sunrise, sunset) => {
+    if (!sunrise || !sunset) return "0h 0m";
+    const diffMs = (sunset - sunrise) * 1000;
+    const hours = Math.floor(diffMs / 3600000);
+    const minutes = Math.floor((diffMs % 3600000) / 60000);
+    return `${hours}h ${minutes}m`;
+  };
+
+  // Generate recommendation based on weather condition
+  const getWeatherRecommendation = (weather) => {
+    if (!weather) return "Select city to view weather tips.";
+    const main = weather.weather[0].main.toLowerCase();
+    const temp = weather.main.temp;
+    
+    if (main.includes("rain") || main.includes("drizzle")) {
+      return "Precipitation expected. Carrying an umbrella is highly recommended.";
+    }
+    if (main.includes("snow")) {
+      return "Freezing snow conditions. Dress in warm layers and drive safe.";
+    }
+    if (temp > 30) {
+      return "High temperatures today. Stay hydrated and avoid long exposure.";
+    }
+    if (temp < 10) {
+      return "Chilly weather outside. Grab a warm jacket before stepping out.";
+    }
+    if (weather.wind.speed > 10) {
+      return "Strong winds observed. Secure loose outdoor items.";
+    }
+    return "Pleasant conditions today. Ideal day for outdoor activities!";
+  };
 
   return (
-    <div>
-      <div className="bg-[#0b131e] h-[120vh] w-full">
-        <div className="flex">
-          <Navbar />
-          <div className="mt-8">
-            <Input />
-            <div>
-              <p className="text-xl text-white font-bold ml-16 mt-5">Units</p>
-              <div className="h-[550px] w-[49vw] bg-[#202b3b] ml-12 mt-2 rounded-2xl flex flex-col gap-2">
-                <p className="pt-3 ml-6 text-slate-400 font-mono">
-                  Temperature
-                </p>
-                <div className="w-[95%] mt-3 bg-[#0b131e] rounded-2xl text-white h-10 ml-6 flex justify-between pt-1.5 font-bold">
-                  <div className="w-[50%] ml-1.5 bg-[#202b3b] text-center mb-1.5 rounded-2xl pt-0.5 ">
-                    Celcius
-                  </div>
-                  <div className="w-[50%] mr-1.5 text-center mb-1.5 rounded-2xl pt-0.5 ">
-                    Fahrenheit
-                  </div>
-                </div>
-                <p className="pt-3 ml-6 text-slate-400 font-mono">Wind Speed</p>
-                <div className="w-[95%] mt-3 bg-[#0b131e] rounded-2xl text-white h-10 ml-6 flex justify-between pt-1.5 font-bold">
-                  <div className="w-[50%] ml-1.5 bg-[#202b3b] text-center mb-1.5 rounded-2xl pt-0.5 ">
-                    Km/hr
-                  </div>
-                  <div className="w-[50%] mr-1.5 text-center mb-1.5 rounded-2xl pt-0.5 ">
-                    m/s
-                  </div>
-                  <div className="w-[50%] mr-1.5 text-center mb-1.5 rounded-2xl pt-0.5 ">
-                    Knots
-                  </div>
-                </div>
-                <p className="pt-3 ml-6 text-slate-400 font-mono">Pressure</p>
-                <div className="w-[95%] mt-3 bg-[#0b131e] rounded-2xl text-white h-10 ml-6 flex justify-between pt-1.5 font-bold">
-                  <div className="w-[50%] ml-1.5 bg-[#202b3b] text-center mb-1.5 rounded-2xl pt-0.5 ">
-                    hPa
-                  </div>
-                  <div className="w-[50%] mr-1.5 text-center mb-1.5 rounded-2xl pt-0.5 ">
-                    Inches
-                  </div>
-                  <div className="w-[50%] mr-1.5 text-center mb-1.5 rounded-2xl pt-0.5 ">
-                    kPa
-                  </div>
-                  <div className="w-[50%] mr-1.5 text-center mb-1.5 rounded-2xl pt-0.5 ">
-                    mm
-                  </div>
-                </div>
-                <p className="pt-3 ml-6 text-slate-400 font-mono">
-                  Precipitation
-                </p>
-                <div className="w-[95%] mt-3 bg-[#0b131e] rounded-2xl text-white h-10 ml-6 flex justify-between pt-1.5 font-bold">
-                  <div className="w-[50%] ml-1.5 bg-[#202b3b] text-center mb-1.5 rounded-2xl pt-0.5 ">
-                    Millimeters
-                  </div>
-                  <div className="w-[50%] mr-1.5 text-center mb-1.5 rounded-2xl pt-0.5 ">
-                    Inches
-                  </div>
-                </div>
-                <p className="pt-3 ml-6 text-slate-400 font-mono">Distance</p>
-                <div className="w-[95%] mt-3 bg-[#0b131e] rounded-2xl text-white h-10 ml-6 flex justify-between pt-1.5 font-bold">
-                  <div className="w-[50%] ml-1.5 bg-[#202b3b] text-center mb-1.5 rounded-2xl pt-0.5 ">
-                    Kilometers
-                  </div>
-                  <div className="w-[50%] mr-1.5 text-center mb-1.5 rounded-2xl pt-0.5 ">
-                    Miles
-                  </div>
-                </div>
-                <div></div>
-              </div>
-            </div>
-            <div className="text-lg text-white ml-16 mt-4 font-bold ">
-              Notifications
-            </div>
-            <div className="h-23 mt-3 w-[49vw] bg-[#202b3b] ml-12 rounded-2xl ">
-              <p className="p-2 ml-3 text-white font-bold pt-5">
-                Notifications
-              </p>
-              <div className="flex justify-between">
-                <p className="text-slate-400 ml-5 ">Be aware of the weather</p>
-                <div
-                  className={`w-14 h-7 flex items-center mt-[-20px] rounded-full p-1 cursor-pointer transition-all duration-300 mr-5 ${
-                    toggle ? "bg-blue-500" : "bg-gray-600"
-                  }`}
-                  onClick={() => {
-                    setToggle(!toggle);
-                  }}
-                >
-                  {" "}
-                  <div
-                    className={`w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-                      toggle ? "translate-x-7" : "translate-x-0"
-                    }`}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="text-lg text-white ml-16 mt-4 font-bold">
-              General
-            </div>
-            <div className="h-40 mt-3 w-[49vw] bg-[#202b3b] ml-12 rounded-2xl ">
-              <div className="flex justify-between">
-                <p className="p-3 text-xl text-white ml-4 pt-7">
-                  12 hour Format
-                </p>
+    <div className="bg-[#0b131e] min-h-screen text-slate-100 pb-24 md:pb-8">
+      <div className="flex flex-col md:flex-row gap-6 p-4 md:p-6 max-w-7xl mx-auto w-full">
+        <Navbar />
 
-                <div
-                  className={`w-14 h-7 flex items-center mt-6 rounded-full p-1 cursor-pointer transition-all duration-300 mr-5 ${
-                    isTwelveHourFormat ? "bg-blue-500" : "bg-gray-600"
-                  }`}
-                  onClick={() => {
-                    setIsTwelveHourFormat(!isTwelveHourFormat);
-                  }}
-                >
-                  {" "}
-                  <div
-                    className={`w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-                      isTwelveHourFormat ? "translate-x-7" : "translate-x-0"
-                    }`}
-                  />
+        <main className="flex-1 w-full mt-4 md:mt-0">
+          <Input />
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+            
+            {/* Units & Settings Options */}
+            <div className="lg:col-span-2 space-y-6">
+              
+              {/* Units Panel */}
+              <div className="bg-[#202b3b]/60 border border-slate-700/30 rounded-3xl p-6 shadow-lg">
+                <h2 className="text-xl font-bold text-white mb-4">Units</h2>
+                
+                <div className="space-y-4">
+                  {/* Temperature */}
+                  <div>
+                    <p className="text-slate-400 font-mono text-xs uppercase tracking-wider mb-2">Temperature</p>
+                    <div className="bg-[#0b131e] rounded-2xl text-white h-11 flex justify-between items-center p-1 font-bold">
+                      <button
+                        onClick={() => handleTempUnitChange("metric")}
+                        className={`flex-1 text-center py-1.5 rounded-xl cursor-pointer transition-all text-sm ${
+                          tempUnit === "metric" ? "bg-[#202b3b] text-white" : "text-slate-400"
+                        }`}
+                      >
+                        Celsius
+                      </button>
+                      <button
+                        onClick={() => handleTempUnitChange("imperial")}
+                        className={`flex-1 text-center py-1.5 rounded-xl cursor-pointer transition-all text-sm ${
+                          tempUnit === "imperial" ? "bg-[#202b3b] text-white" : "text-slate-400"
+                        }`}
+                      >
+                        Fahrenheit
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Wind Speed */}
+                  <div>
+                    <p className="text-slate-400 font-mono text-xs uppercase tracking-wider mb-2">Wind Speed</p>
+                    <div className="bg-[#0b131e] rounded-2xl text-white h-11 flex justify-between items-center p-1 font-bold">
+                      <button
+                        onClick={() => handleWindUnitChange("kmh")}
+                        className={`flex-1 text-center py-1.5 rounded-xl cursor-pointer transition-all text-sm ${
+                          windUnit === "kmh" ? "bg-[#202b3b] text-white" : "text-slate-400"
+                        }`}
+                      >
+                        Km/hr
+                      </button>
+                      <button
+                        onClick={() => handleWindUnitChange("ms")}
+                        className={`flex-1 text-center py-1.5 rounded-xl cursor-pointer transition-all text-sm ${
+                          windUnit === "ms" ? "bg-[#202b3b] text-white" : "text-slate-400"
+                        }`}
+                      >
+                        m/s
+                      </button>
+                      <button
+                        onClick={() => handleWindUnitChange("knots")}
+                        className={`flex-1 text-center py-1.5 rounded-xl cursor-pointer transition-all text-sm ${
+                          windUnit === "knots" ? "bg-[#202b3b] text-white" : "text-slate-400"
+                        }`}
+                      >
+                        Knots
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Pressure (Static Mock) */}
+                  <div>
+                    <p className="text-slate-400 font-mono text-xs uppercase tracking-wider mb-2">Pressure</p>
+                    <div className="bg-[#0b131e] rounded-2xl text-white h-11 flex justify-between items-center p-1 font-bold">
+                      <div className="flex-1 bg-[#202b3b] text-center rounded-xl py-1.5 text-white text-sm">hPa</div>
+                      <div className="flex-1 text-center text-slate-400 text-sm">Inches</div>
+                      <div className="flex-1 text-center text-slate-400 text-sm">kPa</div>
+                      <div className="flex-1 text-center text-slate-400 text-sm">mm</div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="border-b-2 border-slate-600 w-[95%] mt-2 ml-6"></div>
 
-              <div className="flex justify-between">
-                <p className="p-3 text-xl text-white ml-4 pt-7">Location</p>
+              {/* General Options Panel */}
+              <div className="bg-[#202b3b]/60 border border-slate-700/30 rounded-3xl p-6 shadow-lg space-y-4">
+                <h2 className="text-xl font-bold text-white mb-2">General</h2>
 
-                <div
-                  className={`w-14 h-7 flex items-center mt-6 rounded-full p-1 cursor-pointer transition-all duration-300 mr-5 ${
-                    isLocationEnabled ? "bg-blue-500" : "bg-gray-600"
-                  }`}
-                  onClick={() => {
-                    setIsLocationEnable(!isLocationEnabled);
-                  }}
-                >
+                <div className="flex justify-between items-center py-2">
+                  <div>
+                    <p className="text-base text-white">12-hour Format</p>
+                    <p className="text-xs text-slate-400 font-mono">Use AM/PM notation</p>
+                  </div>
                   <div
-                    className={`w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-                      isLocationEnabled ? "translate-x-7" : "translate-x-0"
+                    onClick={() => handleTimeFormatChange(timeFormat === "12h" ? "24h" : "12h")}
+                    className={`w-12 h-6 flex items-center rounded-full p-1 cursor-pointer transition-all duration-300 ${
+                      timeFormat === "12h" ? "bg-blue-500" : "bg-gray-600"
                     }`}
-                  />
+                  >
+                    <div
+                      className={`w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
+                        timeFormat === "12h" ? "translate-x-6" : "translate-x-0"
+                      }`}
+                    />
+                  </div>
+                </div>
+
+                <div className="border-b border-slate-700/30" />
+
+                <div className="flex justify-between items-center py-2">
+                  <div>
+                    <p className="text-base text-white">Location Permissions</p>
+                    <p className="text-xs text-slate-400 font-mono">Enable coordinates search</p>
+                  </div>
+                  <div
+                    onClick={handleLocationToggle}
+                    className={`w-12 h-6 flex items-center rounded-full p-1 cursor-pointer transition-all duration-300 ${
+                      locationEnabled ? "bg-blue-500" : "bg-gray-600"
+                    }`}
+                  >
+                    <div
+                      className={`w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
+                        locationEnabled ? "translate-x-6" : "translate-x-0"
+                      }`}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
+
+            {/* Sidebar Pricing & Ad Panels Replaced with Useful Weather Info */}
+            <div className="space-y-6">
+              {/* Sun & Moon Cycles Card */}
+              <div className="bg-[#202b3b]/60 border border-slate-700/30 rounded-3xl p-6 shadow-lg space-y-4">
+                <p className="text-xl font-bold text-white pb-3 border-b border-slate-700/30 flex items-center gap-2">
+                  <FiSunrise className="text-amber-400" /> Sun Cycles
+                </p>
+                {weatherData ? (
+                  <div className="space-y-3 font-mono text-sm">
+                    <div className="flex justify-between items-center bg-[#0b131e]/40 p-3 rounded-xl">
+                      <span className="text-slate-400 flex items-center gap-1.5">
+                        <FiSunrise /> Sunrise
+                      </span>
+                      <span className="text-white font-bold">
+                        {formatTime(weatherData.sys.sunrise, timeFormat === "12h", weatherData.timezone)}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center bg-[#0b131e]/40 p-3 rounded-xl">
+                      <span className="text-slate-400 flex items-center gap-1.5">
+                        <FiSunset /> Sunset
+                      </span>
+                      <span className="text-white font-bold">
+                        {formatTime(weatherData.sys.sunset, timeFormat === "12h", weatherData.timezone)}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center bg-[#0b131e]/40 p-3 rounded-xl">
+                      <span className="text-slate-400 flex items-center gap-1.5">
+                        <LuActivity /> Daylight
+                      </span>
+                      <span className="text-white font-bold">
+                        {getDayLength(weatherData.sys.sunrise, weatherData.sys.sunset)}
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-slate-400 text-sm font-mono text-center py-6">
+                    No city loaded. Go to Weather page and select a city.
+                  </p>
+                )}
+              </div>
+              
+              {/* Weather Recommendation Tips */}
+              <div className="bg-[#202b3b]/60 border border-slate-700/30 rounded-3xl p-6 shadow-lg space-y-3">
+                <p className="font-bold text-white text-xl pb-3 border-b border-slate-700/30 flex items-center gap-2">
+                  <LuInfo className="text-sky-400" /> Weather Insights
+                </p>
+                <div className="bg-[#0b131e]/40 p-4 rounded-xl">
+                  <p className="text-slate-300 text-sm leading-relaxed font-mono">
+                    {getWeatherRecommendation(weatherData)}
+                  </p>
+                </div>
+              </div>
+            </div>
+
           </div>
-          <div>
-            <div className="bg-[#202b3b] h-[450px] w-2xl ml-14 mt-36 rounded-2xl ">
-              <p className="text-4xl font-bold text-white pt-10 ml-12">
-                Advnaced
-                <div className="border-b-2 border-slate-600 w-[90%] mt-6"></div>
-              </p>
-              <p className="text-2xl text-white ml-12 mt-6 mb-5 ">
-                Get new Experience
-              </p>
-              <ol className="list-disc ml-16 ]">
-                <li className="text-slate-400 font-mono">Ad free</li>
-                <li className="text-slate-400 font-mono">
-                  Health activities overview
-                </li>
-                <li className="text-slate-400 font-mono">
-                  Severe weather notification
-                </li>
-              </ol>
-              <div className="bg-slate-600 h-20 ml-8 mt-14 rounded-2xl w-[90%] text-4xl text-center font-extrabold text-white hover:bg-slate-500">
-                <p className="pt-5">
-                  $9.99 <span className="text-sm text-slate-200">/ month</span>
-                </p>
-              </div>
-            </div>
-            <div className=" ml-14 bg-[#202b3b] w-2xl mt-5 rounded-2xl h-[300px]">
-              <p className="font-bold text-white pt-7 text-3xl ml-16 ">
-                Never Forget your Umbrella!
-                <div className="border-b-2 border-slate-600 w-[90%] mt-6"></div>
-              </p>
-              <p className="ml-16 text-slate-400 text-md w-[60%] mt-5 font-mono">
-                Sign up for our daily weather newsletter personalized just for
-                you.
-              </p>
-              <button className=" w-[70%] bg-[#0095ff] ml-28 mt-16 rounded-4xl text-white p-3 font-bold hover:bg-sky-500">
-                Sign up
-              </button>
-            </div>
-          </div>
-        </div>
+        </main>
       </div>
     </div>
   );

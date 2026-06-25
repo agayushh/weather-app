@@ -1,118 +1,157 @@
-import { FaSun } from "react-icons/fa";
-import { IoRainy } from "react-icons/io5";
-import { FaCloud } from "react-icons/fa6";
-import { FaRegSnowflake } from "react-icons/fa6";
-
-const currentDayForecast = [
-  {
-    time: "6:00 AM",
-    icon: <IoRainy />,
-    temp: "25°C",
-  },
-  {
-    time: "6:00 AM",
-    icon: <FaCloud />,
-    temp: "25°C",
-  },
-  {
-    time: "6:00 AM",
-    icon: <FaRegSnowflake />,
-    temp: "25°C",
-  },
-];
-const nextDaysForecast = [
-  {
-    day: "Today",
-    icon: <IoRainy />,
-    weather: "Rainy",
-    maxTemp: 32,
-    minTemp: 28,
-  },
-  {
-    day: "Today",
-    icon: <FaCloud />,
-    weather: "Rainy",
-    maxTemp: 32,
-    minTemp: 28,
-  },
-  {
-    day: "Today",
-    icon: <FaRegSnowflake />,
-    weather: "Rainy",
-    maxTemp: 32,
-    minTemp: 28,
-  },
-];
+import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { CITY_ATOM } from "../state/atom/city";
+import { TEMP_UNIT_ATOM, TIME_FORMAT_ATOM } from "../state/atom/settings";
+import { fetchCurrentWeather, fetchForecast, getIconUrl } from "../services/weatherApi";
+import { formatTemp, formatTime, rainChance, groupByDay, getDailySummary } from "../utils/weatherUtils";
 
 export default function CitySelected() {
-  return (
-    <div className="h-full w-full ml-10 mt-36 mr-7 rounded-2xl">
-      <div className="border-b-2 border-slate-400 flex justify-between ">
-        <div>
-          <p className="text-5xl p-5 text-white font-bold">Delhi</p>
-          <p className="text-slate-400 ml-5 font-mono text-lg">
-            Chances of rain: 0%
-          </p>
-          <p className="text-5xl text-white ml-5 mt-6 font-bold mb-4">31°</p>
-        </div>
-        <FaSun className="text-7xl mr-20 text-white mt-15" />
-      </div>
-      <div className="border-b-2 border-slate-400">
-        <p className="text-slate-400 text-lg ml-5 mt-5 font-mono ">
-          Today&apos; s Forecast
-        </p>
-        <div className="flex justify-around mt-4 mb-5 ">
-          {currentDayForecast.map((forecast, index) => (
-            <div
-              key={index}
-              className="single time border-r-2 border-slate-300  w-32 text-white"
-            >
-              <div className="text-center mr-12 text-xl font-bold ">
-                {forecast.time}
-              </div>
-              <div className="text-white text-6xl text-center">
-                {forecast.icon}
-              </div>
-              <div className="text-center mt-5 text-xl font-bold mr-14">
-                {forecast.temp}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-      <div>
-        <div>
-          <p className="text-slate-400 font-mono text-lg mt-5 ml-5 ">
-            3 Days Forecast
-          </p>
+  const city = useRecoilValue(CITY_ATOM);
+  const tempUnit = useRecoilValue(TEMP_UNIT_ATOM);
+  const timeFormat = useRecoilValue(TIME_FORMAT_ATOM);
 
-          <div>
-            {nextDaysForecast.map((forecastDay, index) => (
+  const [weather, setWeather] = useState(null);
+  const [forecast, setForecast] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!city) return;
+
+    let isMounted = true;
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const [wData, fData] = await Promise.all([
+          fetchCurrentWeather(city, tempUnit),
+          fetchForecast(city, tempUnit),
+        ]);
+        if (isMounted) {
+          setWeather(wData);
+          setForecast(fData);
+        }
+      } catch (err) {
+        if (isMounted) {
+          setError(err.message || "Failed to load details");
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [city, tempUnit]);
+
+  if (loading) {
+    return (
+      <div className="h-full w-full flex items-center justify-center text-slate-400 font-mono">
+        <p>Loading details...</p>
+      </div>
+    );
+  }
+
+  if (error || !weather) {
+    return (
+      <div className="h-full w-full flex items-center justify-center text-red-400 font-mono p-5 text-center">
+        <p>{error || "No city selected."}</p>
+      </div>
+    );
+  }
+
+  const chanceOfRain = forecast ? rainChance(forecast.list) : 0;
+  const currentTemp = formatTemp(weather.main.temp, tempUnit);
+  const iconUrl = getIconUrl(weather.weather[0].icon);
+
+  // Today's hourly forecast (first 3 slots)
+  const hourlyForecast = forecast ? forecast.list.slice(0, 3) : [];
+
+  // Next 3 days forecast
+  const grouped = forecast ? groupByDay(forecast.list) : {};
+  const dailySummary = forecast ? getDailySummary(grouped).slice(1, 4) : []; // Next 3 days (exclude today)
+
+  return (
+    <div className="w-full rounded-3xl bg-[#202b3b]/60 p-6 border border-slate-700/30 shadow-lg">
+      <div className="border-b border-slate-700 pb-6 flex justify-between items-center">
+        <div>
+          <p className="text-4xl text-white font-bold">{weather.name}</p>
+          <p className="text-slate-400 mt-2 font-mono text-sm capitalize">
+            {weather.weather[0].description} | Rain Chance: {chanceOfRain}%
+          </p>
+          <p className="text-5xl text-white mt-6 font-bold">{currentTemp}</p>
+        </div>
+        <img
+          src={iconUrl}
+          alt={weather.weather[0].description}
+          className="w-24 h-24 filter drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]"
+        />
+      </div>
+
+      {/* Hourly forecast */}
+      <div className="border-b border-slate-700 py-6">
+        <p className="text-slate-400 text-sm font-mono mb-4">
+          Today&apos;s Forecast
+        </p>
+        <div className="flex justify-around">
+          {hourlyForecast.map((slot, index) => {
+            const slotTime = formatTime(slot.dt, timeFormat === "12h", forecast.city.timezone);
+            const slotTemp = formatTemp(slot.main.temp, tempUnit);
+            const slotIcon = getIconUrl(slot.weather[0].icon);
+
+            return (
               <div
                 key={index}
-                className="text-lg font-mono text-slate-400 border-b-2 border-slate-400"
+                className="flex flex-col items-center border-r border-slate-700/50 last:border-0 px-4"
               >
-                <div className="flex justify-between mx-9 mt-8 mb-5">
-                  <div className="text-slate-400 font-mono text-lg mt-2 ">
-                    {forecastDay.day}
-                  </div>
-
-                  <div className="flex ">
-                    <div className="text-5xl mr-3 text-gray-700">
-                      {forecastDay.icon}
-                    </div>
-                    <div className="mt-2">{forecastDay.weather}</div>
-                  </div>
-                  <div className="flex mt-2">
-                    <div className="text-white font-bold">
-                      {forecastDay.maxTemp}
-                    </div>{" "}
-                    /<div>{forecastDay.minTemp}</div>
-                  </div>
+                <div className="text-xs text-slate-400 font-bold mb-1">
+                  {slotTime}
+                </div>
+                <img src={slotIcon} alt="Icon" className="w-12 h-12" />
+                <div className="text-sm font-bold text-white mt-1">
+                  {slotTemp}
                 </div>
               </div>
-            ))}
-          </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* 3 Days Forecast */}
+      <div className="py-6">
+        <p className="text-slate-400 font-mono text-sm mb-4">
+          3 Days Forecast
+        </p>
+        <div className="flex flex-col gap-3">
+          {dailySummary.map((dayData, index) => {
+            const dayName = dayData.day.split(",")[0];
+            const dayIcon = getIconUrl(dayData.icon);
+
+            return (
+              <div
+                key={index}
+                className="flex justify-between items-center text-slate-300 font-mono text-sm border-b border-slate-800/40 pb-2 last:border-0"
+              >
+                <div className="w-20 font-bold text-slate-400">{dayName}</div>
+                <div className="flex items-center gap-2">
+                  <img src={dayIcon} alt="Weather icon" className="w-10 h-10" />
+                  <span className="capitalize text-xs text-slate-500 hidden md:inline">
+                    {dayData.weather.split(" ")[0]}
+                  </span>
+                </div>
+                <div className="flex gap-2">
+                  <span className="text-white font-bold">{Math.round(dayData.maxTemp)}°</span>
+                  <span className="text-slate-600">/</span>
+                  <span className="text-slate-500">{Math.round(dayData.minTemp)}°</span>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
